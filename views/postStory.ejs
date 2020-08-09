@@ -44,28 +44,42 @@
         }
 
         function submitStory() {
-            var arr = [], arObj = {}, blog={};
-            blog.name = $('#title').val();
-            $('.node').each(function(index, element) {
-                var obj = {};
-                obj.content = $(element).children('.content').val();
-                obj.end = false;
-                if ($(element).children('.end').is(':checked')) {
-                    obj.end = true;
-                }
-                if (obj.end === false) {
-                    obj.question = $(element).children('.question').children('.question_content').val();
-                    obj.options = [];
-                    $(element).children('.question').children('.options').each(function(pos, option) {
-                        obj.options.push($(option).val());
-                    });
-                }
+           var arr = [], arObj = {}, blog={};
 
-                arr.push(obj);
-                arObj.nodes = arr;
-                arObj.blog = blog;
-                
-            });
+           $('.node').each(function(index, element) {
+               var obj = {};
+               obj.content = $(element).children('.content').val();
+               var v=$(element).children('.content').val();
+               if(v.trim()!=""&&$('#title').val().trim()!="")
+               {obj.content = $(element).children('.content').val();
+               obj.end = false;
+               blog.name = $('#title').val();
+             }
+             else
+             {
+               alert("Required");
+             }
+               if ($(element).children('.end').is(':checked')) {
+                   obj.end = true;
+               }
+               if (obj.end === false) {
+
+
+                   obj.options = [];
+                   $(element).children('.question').children('.options').each(function(pos, option) {
+                     if($(option).val()!="" &&$(element).children('.question').children('.question_content').val().trim()!="")
+                      { obj.options.push($(option).val());
+                         obj.question = $(element).children('.question').children('.question_content').val();
+                      }
+                       else
+                       alert("Required");
+                   });
+               }
+               arr.push(obj);
+               arObj.nodes = arr;
+               arObj.blog = blog;
+
+           });
 
             $.ajax({
                 url: "/writing/post",
