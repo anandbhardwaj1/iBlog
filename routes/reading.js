@@ -1,10 +1,23 @@
 var express = require("express");
 var router = express.Router();
-
+const bodyParser=require("body-parser");
 var Blog = require("../models/blog.js");
 var Node = require("../models/node.js");
 
+router.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+
+
+Blog.find().sort({"rating" : -1});
+
+
+
+
 router.get("/read/:id", function (req, res) {
+
   var nodesArr = [];
   Blog.findOne({ _id: req.params.id }).then((blog) => {
     blog.nodes.forEach((blogNode, index) => {
@@ -29,7 +42,12 @@ router.get("/read/:id", function (req, res) {
 });
 
 router.get("/", function (req, res) {
-  Blog.find({}, function (err, blogs) {
+
+  Blog.find().sort({"rating" : -1});
+
+
+
+  Blog.find().sort({"rating" : -1}).find({}, function (err, blogs) {
     var nodesArr = [];
     blogs.forEach((blog, index) => {
       Node.findOne({ _id: blog.initialNode })
@@ -55,10 +73,38 @@ router.get("/", function (req, res) {
   });
 });
 
+router.get("/feedback/:id",function(req,res)
+{
+  res.render("test",{id:req.params.id});
+});
+
 router.get("/load/:id", function (req, res) {
   Node.findOne({ _id: req.params.id }).then((node) => {
     res.send(node);
   });
 });
+
+  router.post("/new/:id",function(req,res)
+  { var num1=Number(req.body.rating);
+
+let id=req.param.id;
+
+Blog.findByIdAndUpdate(
+    req.params.id,
+   {$inc: {rating:num1 }},
+
+   {upsert:false},
+
+   function(err, document){
+   
+});
+   res.redirect("/");
+
+
+  });
+
+  
+
+
 
 module.exports = router;
