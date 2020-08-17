@@ -1,4 +1,5 @@
 <% include ./partials/header %>
+
 <h1><%=blog.name%></h1>
 <div id="contentDiv">
     <p id="content"><%=nodesArr[0].content %></p>
@@ -10,6 +11,7 @@
         <button class="opt" onclick="loadStory('<%= nodesArr[0].question.options[j].mapping %>')"><%= nodesArr[0].question.options[j].key %></button>
     <% } %>
     </div>
+
 </div>
 
 
@@ -18,7 +20,7 @@
     function renderNewData(data) {
         // console.log(data.content);
         $('#content').html(($('#content').html() + "<br />" + data.content));
-        
+
         // console.log(typeof data.end);
 
 
@@ -29,7 +31,8 @@
                 $('#options').append(`<button class="opt" onclick="loadStory('${data.question.options[i].mapping}')">${data.question.options[i].key}</button>`);
             }
         } else {
-            $('#question').html(`<center><button>Thank You!</button></center>`);
+$('#question').html('<center><button type="button" onclick="pageRedirect()">Feedback</button></center>');
+
         }
     }
 
@@ -42,6 +45,11 @@
             }
         });
 
+    }
+</script>
+<script>
+    function pageRedirect() {
+     window.location.replace("/reading/feedback/<%=blog.id%>/");
     }
 </script>
 
