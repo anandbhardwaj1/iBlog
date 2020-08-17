@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 
 var blogSchema = mongoose.Schema({
+  rating: {
+    type: Number,default :0,
+  },
   name: {
     type: String,
   },
@@ -8,12 +11,9 @@ var blogSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Node",
   },
-  author: {
-    type: String,
-  },
-  rating: {
-    type: Number,
-  },
+
+
+
   nodes: [
     {
       type: mongoose.Schema.Types.ObjectId,
