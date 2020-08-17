@@ -11,8 +11,6 @@ router.use(
 );
 
 
-Blog.find().sort({"rating" : -1});
-
 
 
 
