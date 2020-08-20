@@ -46,12 +46,10 @@ router.get("/viewAllBlogs", function (req, res) {
 });
 
 router.post("/post",[
-  // username must be an email
 
-  // password must be at least 5 chars long
-  body('blog.name','Blog name required')
+  body('blog.name')
     .trim().not().isEmpty(),
-   body('nodes.*.content','Content required')
+   body('nodes.*.content')
       .trim().not().isEmpty()
 
 
