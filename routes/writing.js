@@ -1,6 +1,8 @@
 var express = require("express");
 var router = express.Router();
 var bodyParser = require("body-parser");
+const { body, validationResult } = require('express-validator');
+
 var mongoose = require("mongoose");
 var async = require("async");
 
@@ -9,6 +11,7 @@ var Blog = require("../models/blog");
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
+
 
 router.get("/", function (req, res) {
   res.render("index");
@@ -42,8 +45,33 @@ router.get("/viewAllBlogs", function (req, res) {
   });
 });
 
-router.post("/post", function (req, res) {
-  var reqBlog = req.body.blog;
+router.post("/post",[
+  // username must be an email
+
+  // password must be at least 5 chars long
+  body('blog.name','Blog name required')
+    .trim().not().isEmpty(),
+   body('nodes.*.content','Content required')
+      .trim().not().isEmpty()
+
+
+], function (req, res) {
+
+  const errors=validationResult(req);
+  console.log(errors);
+  if (!errors.isEmpty()) {
+
+      res.send(500);
+    console.log(errors);
+    //  console.log(req.body.nodes[0].content);
+
+  }
+else{
+
+
+
+ var reqBlog = req.body.blog;
+
   var nodes = [];
   var newBlog = new Blog({
     name: reqBlog.name,
@@ -81,6 +109,8 @@ router.post("/post", function (req, res) {
       res.send(200);
     })
     .catch((err) => {});
+}
+
 });
 
 router.post("/edit/:id", function (req, res) {
@@ -104,6 +134,17 @@ router.post("/edit/:id", function (req, res) {
     });
   });
 });
+
+
+router.get("/posterror", function (req, res) {
+  res.send('<h1>Error:Invalid Data Sent</h1>');
+});
+
+router.get("/postStory", function (req, res) {
+  res.render("postStory");
+});
+
+
 
 router.get("/edit/:id", function (req, res) {
   var nodesArr = [];
