@@ -31,12 +31,12 @@
     <form  action="/reading/new/<%=id%>/" method="post">
 
 
-      
-      <input type="hidden" name="rating" id="rating-input" min="1" max="5" />
+
+      <input type="hidden" name="rating" id="rating-input" min="0" max="5" />
 
 
     <div class="rating" role="optgroup">
-    
+
       <i class="fa fa-star-o fa-2x rating-star" id="rating-1" data-rating="1" tabindex="0" aria-label="Rate as one out of 5 stars" role="radio"></i>
       <i class="fa fa-star-o fa-2x rating-star" id="rating-2" data-rating="2" tabindex="0" aria-label="Rate as two out of 5 stars" role="radio"></i>
       <i class="fa fa-star-o fa-2x rating-star" id="rating-3" data-rating="3" tabindex="0" aria-label="Rate as three out of 5 stars" role="radio"></i>
@@ -51,22 +51,22 @@
 
 		  function setRating(rating) {
 		    $('#rating-input').val(rating);
-		   
+
 		    $('.rating-star').removeClass('fa-star-o').addClass('selected');
-		   
+
 		    $('.rating-star#rating-' + rating + ' ~ .rating-star').removeClass('selected').addClass('fa-star-o');
 		  }
 
 		  $('.rating-star')
 		  .on('mouseover', function(e) {
 		    var rating = $(e.target).data('rating');
-		    
+
 		    $('.rating-star').removeClass('fa-star-o').addClass('fa-star');
-		   
+
 		    $('.rating-star#rating-' + rating + ' ~ .rating-star').removeClass('fa-star').addClass('fa-star-o');
 		  })
 		  .on('mouseleave', function (e) {
-		   
+
 		    $('.rating-star').removeClass('fa-star').addClass('fa-star-o');
 		  })
 		  .on('click', function(e) {
@@ -74,9 +74,9 @@
 		    setRating(rating);
 		  })
 		  .on('keyup', function(e){
-		   
+
 		    if (e.keyCode === 32) {
-		     
+
 		      var rating = $(e.target).data('rating');
 		      setRating(rating);
 		    }
