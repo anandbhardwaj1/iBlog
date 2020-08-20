@@ -1,20 +1,22 @@
 {
-    "name": "csechack",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "serve": "nodemon server.js",
-        "start": "node server.js"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "async": "^2.6.1",
-        "ejs": "^2.6.1",
-        "express": "^4.16.4",
-        "mongoose": "^5.7.5",
-        "nodemon": "^1.18.9"
-    }
+  "name": "csechack",
+  "version": "1.0.0",
+  "description": "**ABOUT** our blog-'iBlog'",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.1",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-validator": "^6.6.1",
+    "mongoose": "^5.7.5",
+    "nodemon": "^1.18.9"
+  },
+  "devDependencies": {}
 }
