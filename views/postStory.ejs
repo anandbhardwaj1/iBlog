@@ -10,84 +10,67 @@
 
     <script>
         var data = [];
-
         var addBlockDiv = '<div class="node">' +
             '<textarea class="content" style="resize: none" rows="4" cols="50" placeholder="Content here...">' +
             '</textarea> <br />' +
             '<input class="end" type="checkbox" checked> Story Ends?</div><br />';
-
         var questionDiv = '<div class="question">' +
                 '<button class="addOption">Add Option</button><br />' +
             '<input type="text" placeholder="Question Content.." class="question_content">' +
             '<br /><input type="text" placeholder="Option.." class="options">' +
             '</div>'
-
         $('document').ready(function() {
             addBlock();
         });
-
         $(document).on('click', 'input[type=checkbox]', function() {
             $(this).parent().append(questionDiv);
         });
-
         $(document).on('click', '.addOption', function() {
             var optionInput = '<br /><input type="text" placeholder="Option.." class="options">';
             $(this).parent().append(optionInput);
         });
-
         $(document).on('click', 'input[type=checkbox]:checked', function() {
             $(this).parent().children(".question").empty();
         });
-
         function addBlock() {
             $('#storyBoard').append(addBlockDiv);
         }
-
         function submitStory() {
-           var arr = [], arObj = {}, blog={};
+            var arr = [], arObj = {}, blog={};
+            blog.name = $('#title').val();
+            $('.node').each(function(index, element) {
+                var obj = {};
+                obj.content = $(element).children('.content').val();
+                obj.end = false;
+                if ($(element).children('.end').is(':checked')) {
+                    obj.end = true;
+                }
+                if (obj.end === false) {
+                    obj.question = $(element).children('.question').children('.question_content').val();
+                    obj.options = [];
+                    $(element).children('.question').children('.options').each(function(pos, option) {
+                        obj.options.push($(option).val());
+                    });
+                }
+                arr.push(obj);
+                arObj.nodes = arr;
+                arObj.blog = blog;
 
-           $('.node').each(function(index, element) {
-               var obj = {};
-               obj.content = $(element).children('.content').val();
-               var v=$(element).children('.content').val();
-               if(v.trim()!=""&&$('#title').val().trim()!="")
-               {obj.content = $(element).children('.content').val();
-               obj.end = false;
-               blog.name = $('#title').val();
-             }
-             else
-             {
-               alert("Required");
-             }
-               if ($(element).children('.end').is(':checked')) {
-                   obj.end = true;
-               }
-               if (obj.end === false) {
-
-
-                   obj.options = [];
-                   $(element).children('.question').children('.options').each(function(pos, option) {
-                     if($(option).val()!="" &&$(element).children('.question').children('.question_content').val().trim()!="")
-                      { obj.options.push($(option).val());
-                         obj.question = $(element).children('.question').children('.question_content').val();
-                      }
-                       else
-                       alert("Required");
-                   });
-               }
-               arr.push(obj);
-               arObj.nodes = arr;
-               arObj.blog = blog;
-
-           });
-
+            });
             $.ajax({
                 url: "/writing/post",
                 type: "post",
                 data: arObj,
                 success: function() {
                     window.location.replace('/writing/viewAllBlogs');
+                },
+                error: function() {
+                    window.location.replace('/writing/posterror');
                 }
+
+
+
+
             });
         }
     </script>
